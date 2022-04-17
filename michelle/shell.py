@@ -7,7 +7,7 @@ from colorama import Fore
 
 class Michelle():
     '''my Shell'''
-    
+
     def __init__(self) -> None:
         '''initialize the commands'''
         self.commands = {
@@ -26,7 +26,10 @@ class Michelle():
                 continue
             parts = line.split(' ')
             if not parts[0] in self.commands:
-                subprocess.run(parts)
+                try:
+                    subprocess.run(parts, check=True)
+                except Exception as exception:
+                    _print(exception, Fore.YELLOW)
                 continue
             if parts[0] == 'EXIT':
                 break
@@ -43,8 +46,8 @@ class Michelle():
         try:
             os.chdir(os.path.abspath(path))
         except Exception:
-            _print("cd: no such file or directory: {}".format(path), Fore.YELLOW)
-    
+            _print(f'cd: no such file or directory: {path}', Fore.YELLOW)
+
     def do_list(self, _a, _b):
         '''executes the LIST command'''
         for element in sorted(os.listdir()):
@@ -52,14 +55,14 @@ class Michelle():
 
     def do_add(self, _, params):
         '''add numbers passed as parameters'''
-        sum = 0
+        total = 0
         try:
             for element in params:
-                sum = sum + int(element)
-            _print("the sum is {}".format(sum), Fore.GREEN)
-        except Exception as exception:
-            _print("invalid number: {}".format(element), Fore.YELLOW)
+                total = total + int(element)
+            _print(f'the sum is {total}', Fore.GREEN)
+        except Exception as _:
+            _print(f'invalid number: {element}', Fore.YELLOW)
 
 def _print(line:str, color_fg):
     '''utility method to add colors'''
-    print('{color_fg}{line}{reset_fg}'.format(line = line,color_fg = color_fg, reset_fg = Fore.RESET))
+    print(f'{color_fg}{line}{Fore.RESET}')
