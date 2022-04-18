@@ -10,7 +10,8 @@ setup(
     packages=find_packages(include=['myshell']),
     test_suite = 'test',
     install_requires=[
-        "colorama >= 0.4.0"
+        "colorama >= 0.4.0",
+        "cryptography"
     ],
     python_requires='>=3.9'
 )
